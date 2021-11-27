@@ -1,0 +1,74 @@
+@startuml
+
+class application extends javafx.application.Application {
+    +void Start(Stage primaryStage) throws IOException
+    +static void main(String[] args)
+}
+
+class mainTabController {
+    -@FXML TabPane tabPane;
+    -@FXML TextField nameField;
+
+    -void addTab() throws IOException
+    -Boolean validateTabName(String tabName)
+    -String getName(TextField nameField)
+}
+
+class tableTabController {
+        -@FXML RadioButton normalV;
+        -@FXML RadioButton completedV;
+        -@FXML RadioButton incompletedV;
+        -@FXML TableView<taskTable> tableList;
+        -@FXML TableColumn <taskTable, String> description;
+        -@FXML TableColumn <taskTable, String> date;
+        -@FXML TableColumn <taskTable, Boolean> completed;
+        -@FXML VBox vBox;
+        -@FXML TextField descField;
+        -@FXML DatePicker datePicker;
+
+        -ObservableList<taskTable> list = FXCollections.observableArrayList();
+        -ObservableList<taskTable> compList = FXCollections.observableArrayList();
+        -ObservableList<taskTable> inCompList = FXCollections.observableArrayList();
+
+        +void initialize()
+        +void removeItem(ActionEvent event)
+        +void clearList(ActionEvent event)
+        +void openList(ActionEvent event)
+        +void openFileToText(File file) throws  IOException
+        +void saveList(ActionEvent event) throws IOException
+        +void saveTextToFile(File file) throws IOException
+        +void addItem(ActionEvent event)
+        +void addFunc(String descTXT, String date)
+        +Boolean validateDate(String date)
+        -String pickerToString(DatePicker datePicker)
+        +Boolean validateDesc(String descTXT)
+        +void editDesc(TableColumn.CellEditEvent<taskTable, String> taskTableStringCellEditEvent)
+        +void editDate(TableColumn.CellEditEvent<taskTable, String> taskTableStringCellEditEvent)
+}
+
+class taskTable {
+    -final SimpleStringProperty desc;
+    -final SimpleStringProperty date;
+    -BooleanProperty completed;
+
+    +taskTable(String description, String dueDate)
+
+    +String getDesc()
+    +void setDesc(String description)
+    +StringProperty descriptionProperty()
+    +String getDate()
+    +void setDate(String description)
+    +StringProperty dueDateProperty()
+    +String getCompleted()
+    +void setCompleted(String description)
+    +StringProperty completedProperty()
+
+    +boolean equals(Object obj)
+    +int hashCode()
+}
+
+application --o mainTabController
+mainTabController --o tableTabController
+tableTabController --o taskTable
+
+@enduml
